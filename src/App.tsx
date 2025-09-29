@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AppProvider } from './contexts/AppContext.js'
 import { AppLayout } from './components/layout/AppLayout.js'
 import { ProductList } from './pages/ProductList.js'
 import { ProductDetail } from './pages/ProductDetail.js'
@@ -14,24 +15,26 @@ interface AppProps {
 
 function App({ basePath = '' }: AppProps) {
   const AppContent = (
-    <AppLayout basePath={basePath}>
-      <Routes>
-        <Route path="/" element={<Navigate to={STANDALONE ? "/list" : `${basePath}/list`} replace />} />
-        <Route path="/list" element={<ProductList basePath={basePath} />} />
-        <Route path="/detail/:id" element={<ProductDetail basePath={basePath} />} />
-        <Route path="/create" element={<CreateProduct basePath={basePath} />} />
-        <Route path="/categories" element={<Categories basePath={basePath} />} />
-        <Route path="*" element={
-          <div className="card" style={{ textAlign: 'center', padding: '40px' }}>
-            <h2>Page Not Found</h2>
-            <p style={{ color: '#666', marginBottom: '20px' }}>
-              The page you're looking for doesn't exist.
-            </p>
-            <Navigate to={STANDALONE ? "/list" : `${basePath}/list`} replace />
-          </div>
-        } />
-      </Routes>
-    </AppLayout>
+    <AppProvider basePath={basePath}>
+      <AppLayout>
+        <Routes>
+          <Route path="/" element={<Navigate to={STANDALONE ? "/list" : `${basePath}/list`} replace />} />
+          <Route path="/list" element={<ProductList />} />
+          <Route path="/detail/:id" element={<ProductDetail />} />
+          <Route path="/create" element={<CreateProduct />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="*" element={
+            <div className="card" style={{ textAlign: 'center', padding: '40px' }}>
+              <h2>Page Not Found</h2>
+              <p style={{ color: '#666', marginBottom: '20px' }}>
+                The page you're looking for doesn't exist.
+              </p>
+              <Navigate to={STANDALONE ? "/list" : `${basePath}/list`} replace />
+            </div>
+          } />
+        </Routes>
+      </AppLayout>
+    </AppProvider>
   )
 
   // Conditionally wrap with BrowserRouter for standalone mode

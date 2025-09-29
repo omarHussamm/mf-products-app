@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useNavigation } from '../contexts/AppContext.js'
 import { mockCategories } from '../data/mockProducts.js'
 import type { Category } from '../types/index.js'
 
 export const Categories = () => {
+  const { getPath } = useNavigation()
   const [categories] = useState<Category[]>(mockCategories)
   const [newCategory, setNewCategory] = useState({ name: '', description: '' })
   const [showAddForm, setShowAddForm] = useState(false)
@@ -28,7 +30,7 @@ export const Categories = () => {
       <div className="page-header">
         <h1 className="page-title">Categories</h1>
         <div style={{ display: 'flex', gap: '10px' }}>
-          <Link to="/list" className="btn btn-outline">
+          <Link to={getPath('/list')} className="btn btn-outline">
             ← Back to Products
           </Link>
           <button 
@@ -127,7 +129,7 @@ export const Categories = () => {
                   {category.productCount} Products
                 </span>
                 <Link 
-                  to={`/list?category=${category.name.toLowerCase()}`}
+                  to={getPath(`/list?category=${category.name.toLowerCase()}`)}
                   className="btn btn-outline"
                 >
                   View Products

@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useNavigation } from '../contexts/AppContext.js'
 import { mockProducts } from '../data/mockProducts.js'
 import type { Product } from '../types/index.js'
 
 export const ProductList = () => {
+  const { getPath } = useNavigation()
   const [products] = useState<Product[]>(mockProducts)
   const [searchTerm, setSearchTerm] = useState('')
   
@@ -16,7 +18,7 @@ export const ProductList = () => {
     <div>
       <div className="page-header">
         <h1 className="page-title">Products</h1>
-        <Link to="/create" className="btn">
+        <Link to={getPath('/create')} className="btn">
           ➕ Add New Product
         </Link>
       </div>
@@ -55,7 +57,7 @@ export const ProductList = () => {
               <span className={`badge ${product.inStock ? 'badge-success' : 'badge-danger'}`}>
                 {product.inStock ? 'In Stock' : 'Out of Stock'}
               </span>
-              <Link to={`/detail/${product.id}`} className="btn btn-outline">
+              <Link to={getPath(`/detail/${product.id}`)} className="btn btn-outline">
                 View Details
               </Link>
             </div>
@@ -69,7 +71,7 @@ export const ProductList = () => {
           <p style={{ color: '#666', marginBottom: '20px' }}>
             Try adjusting your search terms or add a new product.
           </p>
-          <Link to="/create" className="btn">
+          <Link to={getPath('/create')} className="btn">
             Add First Product
           </Link>
         </div>

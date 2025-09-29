@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useNavigation } from '../contexts/AppContext.js'
 import { mockProducts } from '../data/mockProducts.js'
 import type { Product } from '../types/index.js'
 
 export const ProductDetail = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { getPath } = useNavigation()
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -32,7 +34,7 @@ export const ProductDetail = () => {
         <p style={{ color: '#666', marginBottom: '20px' }}>
           The product you're looking for doesn't exist.
         </p>
-        <Link to="/list" className="btn">
+        <Link to={getPath('/list')} className="btn">
           ← Back to Products
         </Link>
       </div>
@@ -50,11 +52,11 @@ export const ProductDetail = () => {
           >
             ← Back
           </button>
-          <Link to="/list" className="btn btn-outline">
+          <Link to={getPath('/list')} className="btn btn-outline">
             All Products
           </Link>
         </div>
-        <Link to={`/edit/${product.id}`} className="btn">
+        <Link to={getPath(`/edit/${product.id}`)} className="btn">
           ✏️ Edit Product
         </Link>
       </div>

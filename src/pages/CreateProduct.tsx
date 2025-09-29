@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useNavigation } from '../contexts/AppContext.js'
 import { mockCategories } from '../data/mockProducts.js'
 
 export const CreateProduct = () => {
   const navigate = useNavigate()
+  const { getPath } = useNavigation()
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -27,7 +29,7 @@ export const CreateProduct = () => {
     
     // Show success message and redirect
     alert('Product created successfully!')
-    navigate('/list')
+    navigate(getPath('/list'))
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -42,7 +44,7 @@ export const CreateProduct = () => {
     <div>
       <div className="page-header">
         <h1 className="page-title">Add New Product</h1>
-        <Link to="/list" className="btn btn-outline">
+        <Link to={getPath('/list')} className="btn btn-outline">
           ← Back to Products
         </Link>
       </div>
@@ -166,7 +168,7 @@ export const CreateProduct = () => {
               <button type="submit" className="btn" style={{ flex: 1 }}>
                 ➕ Create Product
               </button>
-              <Link to="/list" className="btn btn-outline" style={{ flex: 1, textAlign: 'center' }}>
+              <Link to={getPath('/list')} className="btn btn-outline" style={{ flex: 1, textAlign: 'center' }}>
                 Cancel
               </Link>
             </div>
